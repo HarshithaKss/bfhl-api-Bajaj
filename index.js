@@ -5,10 +5,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 const FULL_NAME = "Kommareddy Sai Shiva Harshitha"; 
-const DOB = "21032005";
+const DOB = "21032005"; 
 const EMAIL = "kommareddy.sai2022@vitstudent.ac.in";
 const ROLL_NUMBER = "22BCE3531";
+
 
 function isNumber(str) {
   return /^[0-9]+$/.test(str);
@@ -34,6 +36,7 @@ function alternatingCaps(str) {
   }
   return res;
 }
+
 
 app.post('/bfhl', (req, res) => {
   try {
@@ -66,7 +69,7 @@ app.post('/bfhl', (req, res) => {
 
     res.status(200).json({
       is_success: true,
-      user_id: `${FULL_NAME.toLowerCase()}_${DOB}`,
+      user_id: `${FULL_NAME.toLowerCase().replace(/\s+/g, "_")}_${DOB}`, // 🔹 underscores for spaces
       email: EMAIL,
       roll_number: ROLL_NUMBER,
       odd_numbers,
@@ -83,6 +86,11 @@ app.post('/bfhl', (req, res) => {
     });
   }
 });
+
+app.get("/", (req, res) => {
+  res.send("API is running. Use POST /bfhl");
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
